@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	polygons := v1.MakeFaces()
+	polygons := v1.Generate()
 	polygons = v1.Triangulate(polygons)
 	fmt.Print(v1.SerializeToSTL(polygons))
 }

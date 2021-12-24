@@ -1,6 +1,6 @@
 package v1
 
-func MakeFaces() [][]Vertex {
+func Generate() [][]Vertex {
 	return [][]Vertex{
 		// bottom face
 		{

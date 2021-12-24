@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestFaces(t *testing.T) {
-	got := MakeFaces()
+func TestGenerator(t *testing.T) {
+	got := Generate()
 	want := [][]Vertex{
 		// bottom face
 		{
