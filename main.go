@@ -7,9 +7,10 @@ import (
 )
 
 func main() {
-	faces, err := v1.MakeFaces("v1/fixtures/right_aspect_ratio.tif")
+	polygons, err := v1.MakeFaces("v1/fixtures/right_aspect_ratio.tif")
 	if err != nil {
 		panic(err)
 	}
-	fmt.Print(v1.SerializeToSTL(faces))
+	polygons = v1.Triangulate(polygons)
+	fmt.Print(v1.SerializeToSTL(polygons))
 }
