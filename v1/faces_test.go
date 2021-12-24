@@ -7,7 +7,7 @@ import (
 
 func TestFaces(t *testing.T) {
 	t.Run("wrong aspect ratio", func(t *testing.T) {
-		_, err := faces("fixtures/wrong_aspect_ratio.tif")
+		_, err := MakeFaces("fixtures/wrong_aspect_ratio.tif")
 		want := ErrWrongAspectRatio
 		if err != want {
 			t.Fatalf("got %s want %s", err, want)
@@ -15,7 +15,7 @@ func TestFaces(t *testing.T) {
 	})
 
 	t.Run("right aspect ratio", func(t *testing.T) {
-		got, err := faces("fixtures/right_aspect_ratio.tif")
+		got, err := MakeFaces("fixtures/right_aspect_ratio.tif")
 		if err != nil {
 			t.Fatal(err)
 		}

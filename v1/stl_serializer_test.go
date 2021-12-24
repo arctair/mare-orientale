@@ -7,7 +7,7 @@ import (
 
 func TestSTLSerializer(t *testing.T) {
 	t.Run("empty solid", func(t *testing.T) {
-		got := serializeToSTL(nil)
+		got := SerializeToSTL(nil)
 		want := "solid \nendsolid"
 		if got != want {
 			t.Fatalf("got '%s' want '%s'", got, want)
@@ -15,7 +15,7 @@ func TestSTLSerializer(t *testing.T) {
 	})
 
 	t.Run("one facet", func(t *testing.T) {
-		got := serializeToSTL([][]Vertex{
+		got := SerializeToSTL([][]Vertex{
 			{
 				{0, 1, 2},
 				{3, 4, 5},

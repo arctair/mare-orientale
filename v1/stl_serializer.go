@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func serializeToSTL(polygons [][]Vertex) string {
+func SerializeToSTL(polygons [][]Vertex) string {
 	output := "solid \n"
 	for _, polygon := range polygons {
 		output = writeFacet(output, polygon)

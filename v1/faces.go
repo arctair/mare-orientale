@@ -7,7 +7,7 @@ import (
 	"golang.org/x/image/tiff"
 )
 
-func faces(file string) ([][]Vertex, error) {
+func MakeFaces(file string) ([][]Vertex, error) {
 	reader, err := os.Open(file)
 	if err != nil {
 		return nil, err
