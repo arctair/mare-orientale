@@ -3,6 +3,7 @@ package v1
 import (
 	"bufio"
 	"image"
+	"image/color"
 	"os"
 	"testing"
 
@@ -58,6 +59,9 @@ func TestSampler(t *testing.T) {
 				},
 			)
 
+			image.SetGray16(0, 0, color.Gray16{1})
+			image.SetGray16(0, 180, color.Gray16{8})
+
 			writer := bufio.NewWriter(file)
 			tiff.Encode(writer, image, nil)
 			writer.Flush()
@@ -67,10 +71,24 @@ func TestSampler(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		got := sampler(0, 0)
-		want := 0.0
-		if got != want {
-			t.Fatalf("got %f want %f", got, want)
-		}
+
+		AssertUInt16(
+			t,
+			sampler(0, 0),
+			1,
+		)
+
+		AssertUInt16(
+			t,
+			sampler(0, 180),
+			8,
+		)
 	})
+}
+
+func AssertUInt16(t *testing.T, got, want uint16) {
+	t.Helper()
+	if got != want {
+		t.Fatalf("got %d want %d", got, want)
+	}
 }
