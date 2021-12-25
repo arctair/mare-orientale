@@ -80,7 +80,7 @@ func TestSampler(t *testing.T) {
 
 		AssertUInt16(
 			t,
-			sampler(0, 180),
+			sampler(0, 18),
 			8,
 		)
 	})
