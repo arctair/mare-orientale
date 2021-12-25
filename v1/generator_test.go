@@ -10,45 +10,45 @@ func TestGenerator(t *testing.T) {
 	want := [][]Vertex{
 		// bottom face
 		{
-			Vertex{18 / 2, 18 / 2, -9.3 / 2},
-			Vertex{18 / 2, -18 / 2, -9.3 / 2},
-			Vertex{-18 / 2, -18 / 2, -9.3 / 2},
-			Vertex{-18 / 2, 18 / 2, -9.3 / 2},
+			Vertex{18, 18, 0},
+			Vertex{18, 0, 0},
+			Vertex{0, 0, 0},
+			Vertex{0, 18, 0},
 		},
 		// left face
 		{
-			Vertex{-18 / 2, -18 / 2, -9.3 / 2},
-			Vertex{-18 / 2, -18 / 2, 9.3 / 2},
-			Vertex{-18 / 2, 18 / 2, 9.3 / 2},
-			Vertex{-18 / 2, 18 / 2, -9.3 / 2},
+			Vertex{0, 0, 0},
+			Vertex{0, 0, 9.3},
+			Vertex{0, 18, 9.3},
+			Vertex{0, 18, 0},
 		},
 		// back face
 		{
-			Vertex{-18 / 2, 18 / 2, -9.3 / 2},
-			Vertex{-18 / 2, 18 / 2, 9.3 / 2},
-			Vertex{18 / 2, 18 / 2, 9.3 / 2},
-			Vertex{18 / 2, 18 / 2, -9.3 / 2},
+			Vertex{0, 18, 0},
+			Vertex{0, 18, 9.3},
+			Vertex{18, 18, 9.3},
+			Vertex{18, 18, 0},
 		},
 		// right face
 		{
-			Vertex{18 / 2, 18 / 2, -9.3 / 2},
-			Vertex{18 / 2, 18 / 2, 9.3 / 2},
-			Vertex{18 / 2, -18 / 2, 9.3 / 2},
-			Vertex{18 / 2, -18 / 2, -9.3 / 2},
+			Vertex{18, 18, 0},
+			Vertex{18, 18, 9.3},
+			Vertex{18, 0, 9.3},
+			Vertex{18, 0, 0},
 		},
 		// front face
 		{
-			Vertex{18 / 2, -18 / 2, -9.3 / 2},
-			Vertex{18 / 2, -18 / 2, 9.3 / 2},
-			Vertex{-18 / 2, -18 / 2, 9.3 / 2},
-			Vertex{-18 / 2, -18 / 2, -9.3 / 2},
+			Vertex{18, 0, 0},
+			Vertex{18, 0, 9.3},
+			Vertex{0, 0, 9.3},
+			Vertex{0, 0, 0},
 		},
 		// top face
 		{
-			Vertex{18 / 2, -18 / 2, 9.3 / 2},
-			Vertex{18 / 2, 18 / 2, 9.3 / 2},
-			Vertex{-18 / 2, 18 / 2, 9.3 / 2},
-			Vertex{-18 / 2, -18 / 2, 9.3 / 2},
+			Vertex{18, 0, 9.3},
+			Vertex{18, 18, 9.3},
+			Vertex{0, 18, 9.3},
+			Vertex{0, 0, 9.3},
 		},
 	}
 	if !reflect.DeepEqual(got, want) {
