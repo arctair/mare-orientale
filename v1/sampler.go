@@ -8,7 +8,7 @@ import (
 	"golang.org/x/image/tiff"
 )
 
-func Sampler(file string) (func(x, y float64) uint16, error) {
+func Sampler(file string) (func(x, y float64) float64, error) {
 	reader, err := os.Open(file)
 	if err != nil {
 		return nil, err
@@ -24,7 +24,10 @@ func Sampler(file string) (func(x, y float64) uint16, error) {
 		return nil, ErrWrongAspectRatio
 	}
 
-	return func(x, y float64) uint16 { return image.At(int(x*width/284.7), int(y*height/94.2)).(color.Gray16).Y }, nil
+	return func(x, y float64) float64 {
+		height := image.At(int(x*width/284.7), int(y*height/94.2)).(color.Gray16).Y
+		return float64(height) / 65536.0 * 3
+	}, nil
 }
 
 var ErrWrongAspectRatio = errors.New("aspect ratio must be 284.7 x 94.2")

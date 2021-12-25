@@ -59,8 +59,8 @@ func TestSampler(t *testing.T) {
 				},
 			)
 
-			image.SetGray16(0, 0, color.Gray16{1})
-			image.SetGray16(0, 180, color.Gray16{8})
+			image.SetGray16(0, 0, color.Gray16{2})
+			image.SetGray16(0, 180, color.Gray16{4})
 
 			writer := bufio.NewWriter(file)
 			tiff.Encode(writer, image, nil)
@@ -72,23 +72,23 @@ func TestSampler(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		AssertUInt16(
+		AssertFloat64(
 			t,
 			sampler(0, 0),
-			1,
+			2.0/65536.0*3,
 		)
 
-		AssertUInt16(
+		AssertFloat64(
 			t,
 			sampler(0, 18),
-			8,
+			4.0/65536.0*3,
 		)
 	})
 }
 
-func AssertUInt16(t *testing.T, got, want uint16) {
+func AssertFloat64(t *testing.T, got, want float64) {
 	t.Helper()
 	if got != want {
-		t.Fatalf("got %d want %d", got, want)
+		t.Fatalf("got %f want %f", got, want)
 	}
 }
