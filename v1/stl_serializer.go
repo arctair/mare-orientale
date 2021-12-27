@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func SerializeToSTL(polygons [][]Vertex) string {
+func SerializeToSTL(polygons [][]Vector3) string {
 	output := "solid \n"
 	for _, polygon := range polygons {
 		output = writeFacet(output, polygon)
@@ -14,7 +14,7 @@ func SerializeToSTL(polygons [][]Vertex) string {
 	return output
 }
 
-func writeFacet(output string, polygon []Vertex) string {
+func writeFacet(output string, polygon []Vector3) string {
 	output += "  facet normal 0 0 0\n    outer loop\n"
 	for _, vertex := range polygon {
 		output = writeVertex(output, vertex)
@@ -23,7 +23,7 @@ func writeFacet(output string, polygon []Vertex) string {
 	return output
 }
 
-func writeVertex(output string, vertex Vertex) string {
+func writeVertex(output string, vertex Vector3) string {
 	x, y, z := strconv.FormatFloat(vertex.X, 'f', -1, 64),
 		strconv.FormatFloat(vertex.Y, 'f', -1, 64),
 		strconv.FormatFloat(vertex.Z, 'f', -1, 64)

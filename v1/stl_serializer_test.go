@@ -15,7 +15,7 @@ func TestSTLSerializer(t *testing.T) {
 	})
 
 	t.Run("one facet", func(t *testing.T) {
-		got := SerializeToSTL([][]Vertex{
+		got := SerializeToSTL([][]Vector3{
 			{
 				{0, 1, 2},
 				{3, 4, 5},
