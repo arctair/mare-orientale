@@ -1,0 +1,18 @@
+#!/bin/zsh
+mkdir -p data
+if [ ! -f data/Lunar_LRO_LOLA_Global_LDEM_118m_Mar2014.tif ] ; then
+  echo please download Lunar_LRO_LOLA_Global_LDEM_118m_Mar2014.tif to the data directory and try again
+  return
+fi
+if [ ! -f data/heightmap.tif ] ; then
+  width=$((2847*2))
+  height=$((942*2))
+  worldWidth=5215000
+  worldHeight=$((worldWidth*height/width))
+
+  cp data/Lunar_LRO_LOLA_Global_LDEM_118m_Mar2014.tif data/left.tif
+  gdal_edit.py -a_ullr $((-5458203.077-92160*118+92160*118-92160*118.450587600000006)) 2729101.538 $((5458203.077-92160*118+92160*118-92160*118.450587600000006)) -2729101.538 data/left.tif
+  gdalbuildvrt data/heightmap.vrt data/left.tif data/Lunar_LRO_LOLA_Global_LDEM_118m_Mar2014.tif
+  gdalwarp data/heightmap.vrt data/warp.tif -te $((-1660000-worldWidth)) $((-588000-worldHeight/2)) $((-1660000)) $((-588000+worldHeight/2)) -ts $width $height
+  gdal_translate -scale -14268.000 13473.000 0 65535 data/warp.tif data/heightmap.tif -ot UInt16
+fi
