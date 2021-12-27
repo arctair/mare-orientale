@@ -50,7 +50,3 @@ func Generate(sampler func(x, y float64) float64) [][]Vertex {
 		},
 	}
 }
-
-type Vertex struct {
-	X, Y, Z float64
-}
