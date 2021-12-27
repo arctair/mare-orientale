@@ -6,7 +6,8 @@ import (
 )
 
 func TestTriangulator(t *testing.T) {
-	got := Triangulate([][]Vertex{
+	triangulate := Triangulator()
+	got := triangulate([][]Vertex{
 		{
 			{1, 1, -1},
 			{1, 1, 1},

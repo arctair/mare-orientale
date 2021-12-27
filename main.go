@@ -13,6 +13,7 @@ func main() {
 		panic(err)
 	}
 	polygons := v1.Generate(sampler)
-	polygons = v1.Triangulate(polygons)
+	triangulator := v1.Triangulator()
+	polygons = triangulator(polygons)
 	fmt.Print(v1.SerializeToSTL(polygons))
 }
