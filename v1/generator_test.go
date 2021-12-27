@@ -6,13 +6,13 @@ import (
 )
 
 func TestGenerator(t *testing.T) {
-	sampler := func(x, y float64) float64 {
+	sampler := func(vector2 Vector2) float64 {
 		return map[Vector2]float64{
 			{0, 0}:   1,
 			{0, 18}:  2,
 			{18, 18}: 4,
 			{18, 0}:  8,
-		}[Vector2{x, y}]
+		}[vector2]
 	}
 	got := Generate(sampler)
 

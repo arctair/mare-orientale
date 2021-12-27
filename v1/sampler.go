@@ -8,7 +8,7 @@ import (
 	"golang.org/x/image/tiff"
 )
 
-func Sampler(file string) (func(x, y float64) float64, error) {
+func Sampler(file string) (func(vector2 Vector2) float64, error) {
 	reader, err := os.Open(file)
 	if err != nil {
 		return nil, err
@@ -24,8 +24,8 @@ func Sampler(file string) (func(x, y float64) float64, error) {
 		return nil, ErrWrongAspectRatio
 	}
 
-	return func(x, y float64) float64 {
-		height := image.At(int(x*width/284.7), int(y*height/94.2)).(color.Gray16).Y
+	return func(vector2 Vector2) float64 {
+		height := image.At(int(vector2.X*width/284.7), int(vector2.Y*height/94.2)).(color.Gray16).Y
 		return float64(height) / 65536.0 * 3
 	}, nil
 }

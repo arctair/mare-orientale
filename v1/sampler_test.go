@@ -74,13 +74,13 @@ func TestSampler(t *testing.T) {
 
 		AssertFloat64(
 			t,
-			sampler(0, 0),
+			sampler(Vector2{0, 0}),
 			2.0/65536.0*3,
 		)
 
 		AssertFloat64(
 			t,
-			sampler(0, 18),
+			sampler(Vector2{0, 18}),
 			4.0/65536.0*3,
 		)
 	})

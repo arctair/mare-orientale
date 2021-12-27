@@ -1,9 +1,9 @@
 package v1
 
-func Generate(sampler func(x, y float64) float64) [][]Vector3 {
+func Generate(sampler func(vector2 Vector2) float64) [][]Vector3 {
 	grid := [][]Vector3{
-		{Vector3{0, 0, 9.3 + sampler(0, 0)}, Vector3{0, 18, 9.3 + sampler(0, 18)}},
-		{Vector3{18, 0, 9.3 + sampler(18, 0)}, Vector3{18, 18, 9.3 + sampler(18, 18)}},
+		{Vector3{0, 0, 9.3 + sampler(Vector2{0, 0})}, Vector3{0, 18, 9.3 + sampler(Vector2{0, 18})}},
+		{Vector3{18, 0, 9.3 + sampler(Vector2{18, 0})}, Vector3{18, 18, 9.3 + sampler(Vector2{18, 18})}},
 	}
 	return [][]Vector3{
 		// bottom face
