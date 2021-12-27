@@ -2,30 +2,29 @@ package v1
 
 import (
 	"fmt"
+	"io"
 	"strconv"
 )
 
-func SerializeToSTL(polygons [][]Vector3) string {
-	output := "solid \n"
+func SerializeToSTL(writer io.Writer, polygons [][]Vector3) {
+	fmt.Fprint(writer, "solid \n")
 	for _, polygon := range polygons {
-		output = writeFacet(output, polygon)
+		writeFacet(writer, polygon)
 	}
-	output += "endsolid"
-	return output
+	fmt.Fprint(writer, "endsolid")
 }
 
-func writeFacet(output string, polygon []Vector3) string {
-	output += "  facet normal 0 0 0\n    outer loop\n"
+func writeFacet(writer io.Writer, polygon []Vector3) {
+	fmt.Fprint(writer, "  facet normal 0 0 0\n    outer loop\n")
 	for _, vertex := range polygon {
-		output = writeVertex(output, vertex)
+		writeVertex(writer, vertex)
 	}
-	output += "    endloop\n  endfacet\n"
-	return output
+	fmt.Fprintf(writer, "    endloop\n  endfacet\n")
 }
 
-func writeVertex(output string, vertex Vector3) string {
+func writeVertex(writer io.Writer, vertex Vector3) {
 	x, y, z := strconv.FormatFloat(vertex.X, 'f', -1, 64),
 		strconv.FormatFloat(vertex.Y, 'f', -1, 64),
 		strconv.FormatFloat(vertex.Z, 'f', -1, 64)
-	return output + fmt.Sprintf("      vertex %s %s %s\n", x, y, z)
+	fmt.Fprintf(writer, "      vertex %s %s %s\n", x, y, z)
 }

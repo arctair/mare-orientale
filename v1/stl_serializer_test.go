@@ -1,13 +1,16 @@
 package v1
 
 import (
+	"bytes"
 	"fmt"
 	"testing"
 )
 
 func TestSTLSerializer(t *testing.T) {
 	t.Run("empty solid", func(t *testing.T) {
-		got := SerializeToSTL(nil)
+		var b bytes.Buffer
+		SerializeToSTL(&b, nil)
+		got := b.String()
 		want := "solid \nendsolid"
 		if got != want {
 			t.Fatalf("got '%s' want '%s'", got, want)
@@ -15,13 +18,15 @@ func TestSTLSerializer(t *testing.T) {
 	})
 
 	t.Run("one facet", func(t *testing.T) {
-		got := SerializeToSTL([][]Vector3{
+		var b bytes.Buffer
+		SerializeToSTL(&b, [][]Vector3{
 			{
 				{0, 1, 2},
 				{3, 4, 5},
 				{6, 7, 8},
 			},
 		})
+		got := b.String()
 		wantFacet := `  facet normal 0 0 0
     outer loop
       vertex 0 1 2

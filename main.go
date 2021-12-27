@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"strconv"
 
@@ -16,7 +15,7 @@ func main() {
 	polygons := v1.Generate(sampler, numberOfCuts)
 	triangulator := v1.Triangulator()
 	polygons = triangulator(polygons)
-	fmt.Print(v1.SerializeToSTL(polygons))
+	v1.SerializeToSTL(os.Stdout, polygons)
 }
 
 func check(err error) {
