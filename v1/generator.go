@@ -3,12 +3,14 @@ package v1
 func Generate(sampler func(vector2 Vector2) float64, numberOfCuts int) [][]Vector3 {
 	grid := [][]Vector3{}
 	subdivisionLength := float64(18) / float64(numberOfCuts+1)
-	for x := 0.0; x <= 18.0; x += subdivisionLength {
+	for x := 0; x <= numberOfCuts+1; x += 1 {
+		xmm := float64(x) * subdivisionLength
 		grid = append(grid, []Vector3{})
-		for y := 0.0; y <= 18.0; y += subdivisionLength {
+		for y := 0; y <= numberOfCuts+1; y += 1 {
+			ymm := float64(y) * subdivisionLength
 			grid[len(grid)-1] = append(
 				grid[len(grid)-1],
-				Vector3{x, y, 9.3 + sampler(Vector2{x, y})},
+				Vector3{xmm, ymm, 9.3 + sampler(Vector2{xmm, ymm})},
 			)
 		}
 	}
