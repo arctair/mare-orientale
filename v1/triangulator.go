@@ -18,7 +18,7 @@ func triangulateOne(polygon []Vector3) (polygons [][]Vector3) {
 		polygons = append(polygons, []Vector3{
 			polygon[index],
 			polygon[index+1],
-			polygon[index+2],
+			polygon[(index+2)%len(polygon)],
 		})
 		polygon = append(polygon[:index+1], polygon[index+2:]...)
 	}
@@ -45,16 +45,19 @@ func polygonNormal(polygon []Vector3) (normal Vector3) {
 
 func findEar(polygon []Vector3, normal Vector3) int {
 	for index := range polygon {
-		vertexNormal := cross(
-			polygon[index],
+		v0, v1, v2 := polygon[index],
 			polygon[(index+1)%len(polygon)],
-			polygon[(index+2)%len(polygon)],
-		)
-		if hemispaceEquals(normal, vertexNormal) {
+			polygon[(index+2)%len(polygon)]
+		if isConvex(normal, v0, v1, v2) && !containsAny(normal, v0, v1, v2, append(polygon[index:], polygon[:index]...)[3:]) {
 			return index
 		}
 	}
 	panic("bad geometry")
+}
+
+func isConvex(n0, v0, v1, v2 Vector3) bool {
+	n1 := cross(v0, v1, v2)
+	return signEquals(n0.X, n1.X) && signEquals(n0.Y, n1.Y) && signEquals(n0.Z, n1.Z)
 }
 
 func cross(v0, v1, v2 Vector3) Vector3 {
@@ -67,10 +70,6 @@ func cross(v0, v1, v2 Vector3) Vector3 {
 	}
 }
 
-func hemispaceEquals(n0, n1 Vector3) bool {
-	return signEquals(n0.X, n1.X) && signEquals(n0.Y, n1.Y) && signEquals(n0.Z, n1.Z)
-}
-
 func signEquals(a, b float64) bool {
 	if a < 0 && b > 0 {
 		return false
@@ -78,4 +77,13 @@ func signEquals(a, b float64) bool {
 		return false
 	}
 	return true
+}
+
+func containsAny(n, v0, v1, v2 Vector3, vertices []Vector3) bool {
+	for _, vertex := range vertices {
+		if isConvex(n, v0, v1, vertex) && isConvex(n, v1, v2, vertex) && isConvex(n, v2, v0, vertex) {
+			return true
+		}
+	}
+	return false
 }
