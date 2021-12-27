@@ -71,12 +71,18 @@ func frontFace(samples [][]Vector3) []Vector3 {
 func topFaces(samples [][]Vector3) (faces [][]Vector3) {
 	for y := len(samples[0]) - 1; y > 0; y-- {
 		for x := 0; x < len(samples)-1; x++ {
-			faces = append(faces, []Vector3{
-				samples[x][y],
-				samples[x][y-1],
-				samples[x+1][y-1],
-				samples[x+1][y],
-			})
+			faces = append(faces, [][]Vector3{
+				{
+					samples[x][y],
+					samples[x][y-1],
+					samples[x+1][y-1],
+				},
+				{
+					samples[x][y],
+					samples[x+1][y-1],
+					samples[x+1][y],
+				},
+			}...)
 		}
 	}
 	return

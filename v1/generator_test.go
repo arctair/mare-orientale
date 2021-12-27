@@ -69,6 +69,10 @@ func TestGenerator(t *testing.T) {
 				northWest,
 				southWest,
 				southEast,
+			},
+			{
+				northWest,
+				southEast,
 				northEast,
 			},
 		}
@@ -135,12 +139,20 @@ func TestGenerator(t *testing.T) {
 				northWest,
 				west,
 				center,
+			},
+			{
+				northWest,
+				center,
 				north,
 			},
 			// top north east
 			{
 				north,
 				center,
+				east,
+			},
+			{
+				north,
 				east,
 				northEast,
 			},
@@ -149,12 +161,20 @@ func TestGenerator(t *testing.T) {
 				west,
 				southWest,
 				south,
+			},
+			{
+				west,
+				south,
 				center,
 			},
 			// top south east
 			{
 				center,
 				south,
+				southEast,
+			},
+			{
+				center,
 				southEast,
 				east,
 			},
