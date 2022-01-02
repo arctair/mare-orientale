@@ -6,60 +6,60 @@ import (
 )
 
 func TestGenerator(t *testing.T) {
-	sampler := func(vector2 Vector2) float64 {
-		return map[Vector2]float64{
-			{0, 0}:   1,
-			{0, 9}:   2,
-			{0, 18}:  4,
-			{9, 0}:   8,
-			{9, 9}:   16,
-			{9, 18}:  32,
-			{18, 0}:  64,
-			{18, 9}:  128,
-			{18, 18}: 256,
-		}[vector2]
-	}
-
 	t.Run("zero cuts", func(t *testing.T) {
-		got := Generate(sampler, 0)
+		sampler := func(vector2 Vector2) float64 {
+			return map[Vector2]float64{
+				{0, 0}:   1,
+				{0, 7}:   2,
+				{0, 14}:  4,
+				{7, 0}:   8,
+				{7, 7}:   16,
+				{7, 14}:  32,
+				{14, 0}:  64,
+				{14, 7}:  128,
+				{14, 14}: 256,
+			}[vector2]
+		}
+
+		got := Generate(sampler, 0, 14)
 
 		southWest := Vector3{0, 0, 9.3 + 1}
-		northWest := Vector3{0, 18, 9.3 + 4}
-		northEast := Vector3{18, 18, 9.3 + 256}
-		southEast := Vector3{18, 0, 9.3 + 64}
+		northWest := Vector3{0, 14, 9.3 + 4}
+		northEast := Vector3{14, 14, 9.3 + 256}
+		southEast := Vector3{14, 0, 9.3 + 64}
 
 		want := [][]Vector3{
 			// bottom face
 			{
-				Vector3{18, 18, 0},
-				Vector3{18, 0, 0},
+				Vector3{14, 14, 0},
+				Vector3{14, 0, 0},
 				Vector3{0, 0, 0},
-				Vector3{0, 18, 0},
+				Vector3{0, 14, 0},
 			},
 			// left face
 			{
 				Vector3{0, 0, 0},
 				southWest,
 				northWest,
-				Vector3{0, 18, 0},
+				Vector3{0, 14, 0},
 			},
 			// back face
 			{
-				Vector3{0, 18, 0},
+				Vector3{0, 14, 0},
 				northWest,
 				northEast,
-				Vector3{18, 18, 0},
+				Vector3{14, 14, 0},
 			},
 			// right face
 			{
-				Vector3{18, 18, 0},
+				Vector3{14, 14, 0},
 				northEast,
 				southEast,
-				Vector3{18, 0, 0},
+				Vector3{14, 0, 0},
 			},
 			// front face
 			{
-				Vector3{18, 0, 0},
+				Vector3{14, 0, 0},
 				southEast,
 				southWest,
 				Vector3{0, 0, 0},
@@ -82,7 +82,21 @@ func TestGenerator(t *testing.T) {
 	})
 
 	t.Run("one cut", func(t *testing.T) {
-		got := Generate(sampler, 1)
+		sampler := func(vector2 Vector2) float64 {
+			return map[Vector2]float64{
+				{0, 0}:   1,
+				{0, 9}:   2,
+				{0, 18}:  4,
+				{9, 0}:   8,
+				{9, 9}:   16,
+				{9, 18}:  32,
+				{18, 0}:  64,
+				{18, 9}:  128,
+				{18, 18}: 256,
+			}[vector2]
+		}
+
+		got := Generate(sampler, 1, 18)
 
 		southWest := Vector3{0, 0, 9.3 + 1}
 		west := Vector3{0, 9, 9.3 + 2}

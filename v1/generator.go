@@ -1,8 +1,8 @@
 package v1
 
-func Generate(sampler func(vector2 Vector2) float64, numberOfCuts int) [][]Vector3 {
+func Generate(sampler func(vector2 Vector2) float64, numberOfCuts int, width float64) [][]Vector3 {
 	topVertices := [][]Vector3{}
-	subdivisionLength := float64(18) / float64(numberOfCuts+1)
+	subdivisionLength := width / float64(numberOfCuts+1)
 	for x := 0; x <= numberOfCuts+1; x += 1 {
 		xmm := float64(x) * subdivisionLength
 		topVertices = append(topVertices, []Vector3{})
@@ -16,53 +16,53 @@ func Generate(sampler func(vector2 Vector2) float64, numberOfCuts int) [][]Vecto
 	}
 	return append(
 		[][]Vector3{
-			bottomFace(),
-			leftFace(topVertices),
-			backFace(topVertices),
-			rightFace(topVertices),
-			frontFace(topVertices),
+			bottomFace(width),
+			leftFace(width, topVertices),
+			backFace(width, topVertices),
+			rightFace(width, topVertices),
+			frontFace(width, topVertices),
 		},
 		topFaces(topVertices)...,
 	)
 }
 
-func bottomFace() []Vector3 {
+func bottomFace(width float64) []Vector3 {
 	return []Vector3{
-		{18, 18, 0},
-		{18, 0, 0},
+		{width, width, 0},
+		{width, 0, 0},
 		{0, 0, 0},
-		{0, 18, 0},
+		{0, width, 0},
 	}
 }
 
-func leftFace(topVertices [][]Vector3) []Vector3 {
+func leftFace(width float64, topVertices [][]Vector3) []Vector3 {
 	vertices := []Vector3{{0, 0, 0}}
 	vertices = append(vertices, topVertices[0]...)
-	vertices = append(vertices, Vector3{0, 18, 0})
+	vertices = append(vertices, Vector3{0, width, 0})
 	return vertices
 }
 
-func backFace(topVertices [][]Vector3) []Vector3 {
-	vertices := []Vector3{{0, 18, 0}}
+func backFace(width float64, topVertices [][]Vector3) []Vector3 {
+	vertices := []Vector3{{0, width, 0}}
 	for _, row := range topVertices {
 		vertices = append(vertices, row[len(row)-1])
 	}
-	vertices = append(vertices, Vector3{18, 18, 0})
+	vertices = append(vertices, Vector3{width, width, 0})
 	return vertices
 }
 
-func rightFace(topVertices [][]Vector3) []Vector3 {
-	vertices := []Vector3{{18, 18, 0}}
+func rightFace(width float64, topVertices [][]Vector3) []Vector3 {
+	vertices := []Vector3{{width, width, 0}}
 	lastRow := topVertices[len(topVertices)-1]
 	for index := len(lastRow) - 1; index >= 0; index-- {
 		vertices = append(vertices, lastRow[index])
 	}
-	vertices = append(vertices, Vector3{18, 0, 0})
+	vertices = append(vertices, Vector3{width, 0, 0})
 	return vertices
 }
 
-func frontFace(topVertices [][]Vector3) []Vector3 {
-	vertices := []Vector3{{18, 0, 0}}
+func frontFace(width float64, topVertices [][]Vector3) []Vector3 {
+	vertices := []Vector3{{width, 0, 0}}
 	for index := len(topVertices) - 1; index >= 0; index-- {
 		vertices = append(vertices, topVertices[index][0])
 	}
