@@ -21,12 +21,12 @@ func TestGenerator(t *testing.T) {
 			}[vector2]
 		}
 
-		got := Generate(sampler, 0, 14)
+		got := Generate(sampler, 0, 14, 7.3)
 
-		southWest := Vector3{0, 0, 9.3 + 1}
-		northWest := Vector3{0, 14, 9.3 + 4}
-		northEast := Vector3{14, 14, 9.3 + 256}
-		southEast := Vector3{14, 0, 9.3 + 64}
+		southWest := Vector3{0, 0, 7.3 + 1}
+		northWest := Vector3{0, 14, 7.3 + 4}
+		northEast := Vector3{14, 14, 7.3 + 256}
+		southEast := Vector3{14, 0, 7.3 + 64}
 
 		want := [][]Vector3{
 			// bottom face
@@ -96,7 +96,7 @@ func TestGenerator(t *testing.T) {
 			}[vector2]
 		}
 
-		got := Generate(sampler, 1, 18)
+		got := Generate(sampler, 1, 18, 9.3)
 
 		southWest := Vector3{0, 0, 9.3 + 1}
 		west := Vector3{0, 9, 9.3 + 2}

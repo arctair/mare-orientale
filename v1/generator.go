@@ -1,6 +1,6 @@
 package v1
 
-func Generate(sampler func(vector2 Vector2) float64, numberOfCuts int, width float64) [][]Vector3 {
+func Generate(sampler func(vector2 Vector2) float64, numberOfCuts int, width, height float64) [][]Vector3 {
 	topVertices := [][]Vector3{}
 	subdivisionLength := width / float64(numberOfCuts+1)
 	for x := 0; x <= numberOfCuts+1; x += 1 {
@@ -10,7 +10,7 @@ func Generate(sampler func(vector2 Vector2) float64, numberOfCuts int, width flo
 			ymm := float64(y) * subdivisionLength
 			topVertices[len(topVertices)-1] = append(
 				topVertices[len(topVertices)-1],
-				Vector3{xmm, ymm, 9.3 + sampler(Vector2{xmm, ymm})},
+				Vector3{xmm, ymm, height + sampler(Vector2{xmm, ymm})},
 			)
 		}
 	}
