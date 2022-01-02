@@ -1,16 +1,26 @@
 package v1
 
-func Triangulator(polygons [][]Vector3) (triangles [][]Vector3) {
+import "errors"
+
+func Triangulator(polygons [][]Vector3) (triangles [][]Vector3, err error) {
 	for _, polygon := range polygons {
-		triangles = append(triangles, triangulateOne(polygon)...)
+		moreTriangles, err := triangulateOne(polygon)
+		if err != nil {
+			return nil, err
+		}
+		triangles = append(triangles, moreTriangles...)
 	}
 	return
 }
 
-func triangulateOne(polygon []Vector3) (polygons [][]Vector3) {
+func triangulateOne(polygon []Vector3) (polygons [][]Vector3, err error) {
 	normal := polygonNormal(polygon)
+	var index int
 	for len(polygon) > 3 {
-		index := findEar(polygon, normal)
+		index, err = findEar(polygon, normal)
+		if err != nil {
+			return
+		}
 		polygons = append(polygons, []Vector3{
 			polygon[index],
 			polygon[index+1],
@@ -22,7 +32,7 @@ func triangulateOne(polygon []Vector3) (polygons [][]Vector3) {
 		polygon[0],
 		polygon[1],
 		polygon[2],
-	})
+	}), nil
 }
 
 func polygonNormal(polygon []Vector3) (normal Vector3) {
@@ -39,16 +49,16 @@ func polygonNormal(polygon []Vector3) (normal Vector3) {
 	return
 }
 
-func findEar(polygon []Vector3, normal Vector3) int {
+func findEar(polygon []Vector3, normal Vector3) (int, error) {
 	for index := range polygon {
 		v0, v1, v2 := polygon[index],
 			polygon[(index+1)%len(polygon)],
 			polygon[(index+2)%len(polygon)]
 		if isConvex(normal, v0, v1, v2) && !containsAny(normal, v0, v1, v2, append(polygon[index:], polygon[:index]...)[3:]) {
-			return index
+			return index, nil
 		}
 	}
-	panic("bad geometry")
+	return 0, errors.New("no ears left")
 }
 
 func isConvex(n0, v0, v1, v2 Vector3) bool {
