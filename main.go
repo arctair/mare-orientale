@@ -12,7 +12,7 @@ func main() {
 	check(err)
 	numberOfCuts, err := strconv.Atoi(os.Args[2])
 	check(err)
-	polygons := v1.Generate(sampler, numberOfCuts, 18, 18, 9.3)
+	polygons := v1.Generate(sampler, numberOfCuts, 18+1.05+18, 18, 9.3)
 	triangulator := v1.Triangulator()
 	polygons = triangulator(polygons)
 	v1.SerializeToSTL(os.Stdout, polygons)

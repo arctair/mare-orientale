@@ -8,33 +8,32 @@ import (
 )
 
 func TestGenerator(t *testing.T) {
-	t.Run("zero cuts", func(t *testing.T) {
+	t.Run("zero cuts across length", func(t *testing.T) {
 		sampler := func(vector2 Vector2) float64 {
 			return map[Vector2]float64{
 				{0, 0}:   1,
-				{0, 8}:   2,
 				{0, 16}:  4,
-				{7, 0}:   8,
-				{7, 8}:   16,
-				{7, 16}:  32,
-				{14, 0}:  64,
-				{14, 8}:  128,
-				{14, 16}: 256,
+				{16, 0}:  8,
+				{16, 16}: 32,
+				{32, 0}:  64,
+				{32, 16}: 256,
 			}[vector2]
 		}
 
-		got := Generate(sampler, 0, 14, 16, 7.3)
+		got := Generate(sampler, 0, 32, 16, 7.3)
 
 		southWest := Vector3{0, 0, 7.3 + 1}
 		northWest := Vector3{0, 16, 7.3 + 4}
-		northEast := Vector3{14, 16, 7.3 + 256}
-		southEast := Vector3{14, 0, 7.3 + 64}
+		north := Vector3{16, 16, 7.3 + 32}
+		northEast := Vector3{32, 16, 7.3 + 256}
+		southEast := Vector3{32, 0, 7.3 + 64}
+		south := Vector3{16, 0, 7.3 + 8}
 
 		want := [][]Vector3{
 			// bottom face
 			{
-				Vector3{14, 16, 0},
-				Vector3{14, 0, 0},
+				Vector3{32, 16, 0},
+				Vector3{32, 0, 0},
 				Vector3{0, 0, 0},
 				Vector3{0, 16, 0},
 			},
@@ -49,31 +48,44 @@ func TestGenerator(t *testing.T) {
 			{
 				Vector3{0, 16, 0},
 				northWest,
+				north,
 				northEast,
-				Vector3{14, 16, 0},
+				Vector3{32, 16, 0},
 			},
 			// right face
 			{
-				Vector3{14, 16, 0},
+				Vector3{32, 16, 0},
 				northEast,
 				southEast,
-				Vector3{14, 0, 0},
+				Vector3{32, 0, 0},
 			},
 			// front face
 			{
-				Vector3{14, 0, 0},
+				Vector3{32, 0, 0},
 				southEast,
+				south,
 				southWest,
 				Vector3{0, 0, 0},
 			},
-			// top face
+			// top west face
 			{
 				northWest,
 				southWest,
-				southEast,
+				south,
 			},
 			{
 				northWest,
+				south,
+				north,
+			},
+			// top east face
+			{
+				north,
+				south,
+				southEast,
+			},
+			{
+				north,
 				southEast,
 				northEast,
 			},

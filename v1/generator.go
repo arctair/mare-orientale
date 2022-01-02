@@ -1,13 +1,16 @@
 package v1
 
-func Generate(sampler func(vector2 Vector2) float64, numberOfCuts int, width, length, height float64) [][]Vector3 {
+func Generate(sampler func(vector2 Vector2) float64, numberOfLengthCuts int, width, length, height float64) [][]Vector3 {
 	topVertices := [][]Vector3{}
-	subdivisionWidth := width / float64(numberOfCuts+1)
-	subdivisionLength := length / float64(numberOfCuts+1)
-	for x := 0; x <= numberOfCuts+1; x += 1 {
+
+	numberOfLengthEdges := numberOfLengthCuts + 1
+	numberOfWidthEdges := numberOfLengthEdges * int(width/length)
+	subdivisionLength := length / float64(numberOfLengthEdges)
+	subdivisionWidth := width / float64(numberOfWidthEdges)
+	for x := 0; x <= numberOfWidthEdges; x += 1 {
 		xmm := float64(x) * subdivisionWidth
 		topVertices = append(topVertices, []Vector3{})
-		for y := 0; y <= numberOfCuts+1; y += 1 {
+		for y := 0; y <= numberOfLengthEdges; y += 1 {
 			ymm := float64(y) * subdivisionLength
 			topVertices[len(topVertices)-1] = append(
 				topVertices[len(topVertices)-1],
