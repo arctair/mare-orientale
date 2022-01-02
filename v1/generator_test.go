@@ -3,6 +3,8 @@ package v1
 import (
 	"reflect"
 	"testing"
+
+	. "github.com/stretchr/testify/assert"
 )
 
 func TestGenerator(t *testing.T) {
@@ -10,49 +12,49 @@ func TestGenerator(t *testing.T) {
 		sampler := func(vector2 Vector2) float64 {
 			return map[Vector2]float64{
 				{0, 0}:   1,
-				{0, 7}:   2,
-				{0, 14}:  4,
+				{0, 8}:   2,
+				{0, 16}:  4,
 				{7, 0}:   8,
-				{7, 7}:   16,
-				{7, 14}:  32,
+				{7, 8}:   16,
+				{7, 16}:  32,
 				{14, 0}:  64,
-				{14, 7}:  128,
-				{14, 14}: 256,
+				{14, 8}:  128,
+				{14, 16}: 256,
 			}[vector2]
 		}
 
-		got := Generate(sampler, 0, 14, 7.3)
+		got := Generate(sampler, 0, 14, 16, 7.3)
 
 		southWest := Vector3{0, 0, 7.3 + 1}
-		northWest := Vector3{0, 14, 7.3 + 4}
-		northEast := Vector3{14, 14, 7.3 + 256}
+		northWest := Vector3{0, 16, 7.3 + 4}
+		northEast := Vector3{14, 16, 7.3 + 256}
 		southEast := Vector3{14, 0, 7.3 + 64}
 
 		want := [][]Vector3{
 			// bottom face
 			{
-				Vector3{14, 14, 0},
+				Vector3{14, 16, 0},
 				Vector3{14, 0, 0},
 				Vector3{0, 0, 0},
-				Vector3{0, 14, 0},
+				Vector3{0, 16, 0},
 			},
 			// left face
 			{
 				Vector3{0, 0, 0},
 				southWest,
 				northWest,
-				Vector3{0, 14, 0},
+				Vector3{0, 16, 0},
 			},
 			// back face
 			{
-				Vector3{0, 14, 0},
+				Vector3{0, 16, 0},
 				northWest,
 				northEast,
-				Vector3{14, 14, 0},
+				Vector3{14, 16, 0},
 			},
 			// right face
 			{
-				Vector3{14, 14, 0},
+				Vector3{14, 16, 0},
 				northEast,
 				southEast,
 				Vector3{14, 0, 0},
@@ -76,9 +78,7 @@ func TestGenerator(t *testing.T) {
 				northEast,
 			},
 		}
-		if !reflect.DeepEqual(got, want) {
-			t.Fatalf("got %+v want %+v", got, want)
-		}
+		Equal(t, want, got)
 	})
 
 	t.Run("one cut", func(t *testing.T) {
@@ -96,7 +96,7 @@ func TestGenerator(t *testing.T) {
 			}[vector2]
 		}
 
-		got := Generate(sampler, 1, 18, 9.3)
+		got := Generate(sampler, 1, 18, 18, 9.3)
 
 		southWest := Vector3{0, 0, 9.3 + 1}
 		west := Vector3{0, 9, 9.3 + 2}
