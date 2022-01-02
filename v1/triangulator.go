@@ -1,6 +1,9 @@
 package v1
 
-import "errors"
+import (
+	"fmt"
+	"math"
+)
 
 func Triangulator(polygons [][]Vector3) (triangles [][]Vector3, err error) {
 	for _, polygon := range polygons {
@@ -58,12 +61,16 @@ func findEar(polygon []Vector3, normal Vector3) (int, error) {
 			return index, nil
 		}
 	}
-	return 0, errors.New("no ears left")
+	return 0, fmt.Errorf("no ears left in %+v", polygon)
 }
 
 func isConvex(n0, v0, v1, v2 Vector3) bool {
 	n1 := cross(v0, v1, v2)
-	return signEquals(n0.X, n1.X) && signEquals(n0.Y, n1.Y) && signEquals(n0.Z, n1.Z)
+	return sameWay(n0.X, n1.X) && sameWay(n0.Y, n1.Y) && sameWay(n0.Z, n1.Z)
+}
+
+func sameWay(a, b float64) bool {
+	return signEquals(a, b) || math.Abs(a-b) < 0.00001
 }
 
 func cross(v0, v1, v2 Vector3) Vector3 {
