@@ -6,9 +6,8 @@ import (
 )
 
 func TestTriangulator(t *testing.T) {
-	triangulate := Triangulator()
 	t.Run("convex polygon", func(t *testing.T) {
-		got := triangulate([][]Vector3{
+		got := Triangulator([][]Vector3{
 			{
 				{1, 1, -1},
 				{1, 1, 1},
@@ -34,7 +33,7 @@ func TestTriangulator(t *testing.T) {
 	})
 
 	t.Run("concave polygon", func(t *testing.T) {
-		got := triangulate([][]Vector3{
+		got := Triangulator([][]Vector3{
 			{
 				{0, 0, 0},
 				{3, 0, 0},

@@ -1,10 +1,6 @@
 package v1
 
-func Triangulator() func([][]Vector3) [][]Vector3 {
-	return triangulate
-}
-
-func triangulate(polygons [][]Vector3) (triangles [][]Vector3) {
+func Triangulator(polygons [][]Vector3) (triangles [][]Vector3) {
 	for _, polygon := range polygons {
 		triangles = append(triangles, triangulateOne(polygon)...)
 	}
